@@ -46,14 +46,14 @@ public class ConfigLibCompatibility
 
     private void EditConfig(string id, ControlButtons buttons, ICoreClientAPI api)
     {
-        if (buttons.Save) ModConfig.WriteConfig(api, Core.Config);
-        if (buttons.Defaults) Core.Config = new();
+        if (buttons.Save) ModConfig.WriteConfig(api, MobsRadarConfig.ConfigName, Core.Config);
+        if (buttons.Defaults) Core.Config = new MobsRadarConfig(api, null);
         Edit(api, Core.Config, id);
     }
 
     private int selectedMarker = 0;
     private string markerToAdd = "";
-    private void Edit(ICoreClientAPI api, Configuration.Config config, string id)
+    private void Edit(ICoreClientAPI api, Configuration.MobsRadarConfig config, string id)
     {
         ImGui.TextWrapped(Lang.Get(textMarkers));
         ImGui.TextWrapped(Lang.Get(textRefreshRate));

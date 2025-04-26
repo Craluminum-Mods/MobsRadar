@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using MobsRadar.Configuration;
+using System.Collections.Generic;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -11,13 +11,13 @@ namespace MobsRadar;
 
 public class Core : ModSystem
 {
-    public static Config Config { get; set; }
+    public static MobsRadarConfig Config { get; set; }
     public static Dictionary<string, EntityMark> DefaultMarkers { get; set; } = new();
 
     public override void AssetsLoaded(ICoreAPI api)
     {
         DefaultMarkers = api.Assets.TryGet("mobsradar:config/markers_default.json").ToObject<Dictionary<string, EntityMark>>();
-        Config = ModConfig.ReadConfig(api);
+        Config = ModConfig.ReadConfig<MobsRadarConfig>(api, MobsRadarConfig.ConfigName);
 
         if (api.ModLoader.IsModEnabled("configlib"))
         {
@@ -38,7 +38,7 @@ public class Core : ModSystem
 
     public static bool UpdateRadarConfig(ICoreClientAPI capi)
     {
-        Config = ModConfig.ReadConfig(capi);
+        Config = ModConfig.ReadConfig<MobsRadarConfig>(capi, MobsRadarConfig.ConfigName);
 
         MobsRadarMapLayer mobsradar = capi.ModLoader.GetModSystem<WorldMapManager>().MapLayers.Find(layer => layer is MobsRadarMapLayer) as MobsRadarMapLayer;
         if (Config.RefreshRate == -1)
