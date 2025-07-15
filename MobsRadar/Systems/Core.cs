@@ -18,6 +18,11 @@ public class Core : ModSystem
     {
         DefaultMarkers = api.Assets.TryGet("mobsradar:config/markers_default.json").ToObject<Dictionary<string, EntityMark>>();
         Config = ModConfig.ReadConfig<MobsRadarConfig>(api, MobsRadarConfig.ConfigName);
+        
+        if (Config.AutoFill)
+        {
+            ModConfig.WriteConfig(api, MobsRadarConfig.ConfigName, Config);
+        }
 
         if (api.ModLoader.IsModEnabled("configlib"))
         {
