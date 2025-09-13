@@ -156,8 +156,7 @@ public class MobsRadarMapLayer : MapLayer
 
     private LoadedTexture DrawIcon(EntityMark marker, int size)
     {
-        double[] bgra = ColorUtil.Hex2Doubles(marker?.Color ?? "#FFFFFF");
-        double[] rgba = { bgra[2], bgra[1], bgra[0], bgra[3] };
+        double[] rgba = ColorUtil.Hex2Doubles(marker?.Color ?? "#FFFFFF");
 
         if (!string.IsNullOrEmpty(marker.Icon) && api.Assets.TryGet(marker.Icon) != null)
         {
