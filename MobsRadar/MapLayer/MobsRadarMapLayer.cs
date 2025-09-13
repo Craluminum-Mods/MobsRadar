@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-using System.Text;
 using Cairo;
 using HarmonyLib;
+using System.Collections.Generic;
+using System.Text;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
@@ -156,9 +156,12 @@ public class MobsRadarMapLayer : MapLayer
 
     private LoadedTexture DrawIcon(EntityMark marker, int size)
     {
+        double[] bgra = ColorUtil.Hex2Doubles(marker?.Color ?? "#FFFFFF");
+        double[] rgba = { bgra[2], bgra[1], bgra[0], bgra[3] };
+
         if (!string.IsNullOrEmpty(marker.Icon) && api.Assets.TryGet(marker.Icon) != null)
         {
-            return capi.Gui.LoadSvgWithPadding(new AssetLocation(marker.Icon), size, size, 7, marker.Color != null ? ColorUtil.Hex2Int(marker.Color) : null);
+            return capi.Gui.LoadSvgWithPadding(new AssetLocation(marker.Icon), size, size, 7, ColorUtil.ColorFromRgba(rgba));
         }
         else
         {
@@ -166,7 +169,7 @@ public class MobsRadarMapLayer : MapLayer
             Context ctx = new Context(surface);
             ctx.SetSourceRGBA(0, 0, 0, 0);
             ctx.Paint();
-            capi.Gui.Icons.DrawMapPlayer(ctx, 0, 0, size, size, new double[] { 0.3, 0.3, 0.3, 1 }, ColorUtil.Hex2Doubles(marker.Color));
+            capi.Gui.Icons.DrawMapPlayer(ctx, 0, 0, size, size, new double[] { 0.3, 0.3, 0.3, 1 }, rgba);
 
             LoadedTexture _texture = new LoadedTexture(capi, capi.Gui.LoadCairoTexture(surface, false), size / 2, size / 2);
             ctx.Dispose();
