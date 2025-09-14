@@ -156,11 +156,12 @@ public class MobsRadarMapLayer : MapLayer
 
     private LoadedTexture DrawIcon(EntityMark marker, int size)
     {
-        double[] rgba = ColorUtil.Hex2Doubles(marker?.Color ?? "#FFFFFF");
+        double[] COLOR_RGBA_DOUBLES = ColorUtil.Hex2Doubles(marker?.Color ?? "#FFFFFF");
+        int COLOR_RGBA_INT = IntRgbaColorFromDoublesRgba(COLOR_RGBA_DOUBLES);
 
         if (!string.IsNullOrEmpty(marker.Icon) && api.Assets.TryGet(marker.Icon) != null)
         {
-            return capi.Gui.LoadSvgWithPadding(new AssetLocation(marker.Icon), size, size, 7, ColorUtil.ColorFromRgba(rgba));
+            return capi.Gui.LoadSvgWithPadding(new AssetLocation(marker.Icon), size, size, 7, COLOR_RGBA_INT);
         }
         else
         {
@@ -168,12 +169,21 @@ public class MobsRadarMapLayer : MapLayer
             Context ctx = new Context(surface);
             ctx.SetSourceRGBA(0, 0, 0, 0);
             ctx.Paint();
-            capi.Gui.Icons.DrawMapPlayer(ctx, 0, 0, size, size, new double[] { 0.3, 0.3, 0.3, 1 }, rgba);
+            capi.Gui.Icons.DrawMapPlayer(ctx, 0, 0, size, size, new double[] { 0.3, 0.3, 0.3, 1 }, COLOR_RGBA_DOUBLES);
 
             LoadedTexture _texture = new LoadedTexture(capi, capi.Gui.LoadCairoTexture(surface, false), size / 2, size / 2);
             ctx.Dispose();
             surface.Dispose();
             return _texture;
+        }
+
+        static int IntRgbaColorFromDoublesRgba(double[] col)
+        {
+            int r = (int)(col[0] * 255.0);
+            int g = (int)(col[1] * 255.0);
+            int b = (int)(col[2] * 255.0);
+            int a = (int)(col[3] * 255.0);
+            return (a << 24) | (r << 16) | (g << 8) | b;
         }
     }
 
