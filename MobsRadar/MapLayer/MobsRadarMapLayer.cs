@@ -35,6 +35,7 @@ public class MobsRadarMapLayer : MapLayer
 
     private void Event_EntitySpawn(Entity entity)
     {
+        if (entity == null) return;
         if (entity is EntityPlayer) return;
 
         if (loadedEntityMarkers == null || loadedEntityMarkers.Count == 0)
@@ -60,6 +61,8 @@ public class MobsRadarMapLayer : MapLayer
 
     private void Event_EntityDespawn(Entity entity, EntityDespawnData data)
     {
+        if (entity == null) return;
+
         if (MapComps.TryGetValue(entity.EntityId, out RadarMapComponent mapComponent))
         {
             mapComponent.Dispose();
