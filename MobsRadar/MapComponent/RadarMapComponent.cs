@@ -12,8 +12,11 @@ namespace MobsRadar;
 
 public class RadarMapComponent : EntityMapComponent
 {
+    Entity entity;
+
     public RadarMapComponent(ICoreClientAPI capi, LoadedTexture texture, Entity entity) : base(capi, texture, entity)
     {
+        this.entity = entity;
     }
 
     public override void OnMouseMove(MouseEvent args, GuiElementMap mapElem, StringBuilder hoverText)

@@ -4,10 +4,10 @@
     "modid": "mobsradar",
     "name": "Mobs Radar",
     "description": "Detects creatures and adds markers for them on both world map and minimap.",
-    "authors": ["Craluminum2413"],
+    "authors": ["Craluminum2413 (Dana)"],
     "contributors": ["Apache", "G3rste"],
-    "version": "2.1.13",
+    "version": "3.0.0",
     "dependencies": {
-        "game": "1.21.0"
+        "game": "1.22.0-pre.1"
     }
 }
